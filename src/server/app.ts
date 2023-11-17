@@ -1,10 +1,14 @@
+import "dotenv/config";
+import chalk from "chalk";
 import express from "express";
 
 const app = express();
 
+app.disable("x-powered-by");
+
 export const startServer = (port: number) => {
   app.listen(port, () => {
-    // Mensaje para cuando se ha levantado 👋
+    console.log(chalk.green(`Listening on http://localhost:${port}`));
   });
 };
 
