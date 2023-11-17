@@ -1,7 +1,7 @@
 import chalk from "chalk";
-import { startServer } from "./server/app";
-import { connectToDatabase } from "./database";
-import "./server/index";
+import { startServer } from "./server/app.js";
+import { connectToDatabase } from "./database/index.js";
+import "./server/index.js";
 
 const port = process.env.PORT ?? 4000;
 if (!process.env.MONGODB_URL) {
