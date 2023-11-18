@@ -1,6 +1,6 @@
 import morgan from "morgan";
-import app from "./app.js";
 import express from "express";
+import app from "./app.js";
 import pingRouter from "../features/ping/router/PingRouter.js";
 
 app.use(morgan("dev"));
