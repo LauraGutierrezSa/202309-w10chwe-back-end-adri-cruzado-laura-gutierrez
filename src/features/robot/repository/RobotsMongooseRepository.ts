@@ -1,5 +1,5 @@
 import type { RobotsRepository, RobotStructure } from "../types";
-import Robot from "../model/Robot";
+import Robot from "../model/Robot.js";
 
 class RobotsMongooseRepository implements RobotsRepository {
   public async getRobots(): Promise<RobotStructure[]> {

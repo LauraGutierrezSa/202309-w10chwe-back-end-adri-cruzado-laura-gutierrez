@@ -1,23 +1,18 @@
-export const robotsMock = [
+import { type RobotStructure } from "../types";
+
+export const robotsMock: RobotStructure[] = [
   {
-    _id: "1",
+    _id: "6557b7b3d62271dad146e758",
     name: "Optimus Prime",
-    imageUrl: "https://www.fake.com/url.jpeg",
+    imageUrl: "https://i.ibb.co/rfnHsY2/optimus-prime.webp",
     speed: 5,
     endurance: 8,
   },
   {
-    _id: "2",
+    _id: "6557b7b9d62271dad146e75a",
     name: "Mazinger Z",
-    imageUrl: "https://www.fake.com/url1.jpeg",
+    imageUrl: "https://i.ibb.co/6b1dQqY/mazinger-z.webp",
     speed: 4,
     endurance: 7,
-  },
-  {
-    _id: "3",
-    name: "Bender",
-    imageUrl: "https://www.fake.com/url2.jpeg",
-    speed: 2,
-    endurance: 9,
   },
 ];
