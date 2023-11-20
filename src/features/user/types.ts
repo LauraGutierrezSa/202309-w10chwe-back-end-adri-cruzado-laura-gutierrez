@@ -8,3 +8,5 @@ export interface UserStructure {
 export type UserDataStructure = Omit<UserStructure, "_id">;
 
 export type UserWithoutPasswordStructure = Omit<UserStructure, "password">;
+
+export type LoginRequestData = Omit<UserStructure, "_id" | "name">;
