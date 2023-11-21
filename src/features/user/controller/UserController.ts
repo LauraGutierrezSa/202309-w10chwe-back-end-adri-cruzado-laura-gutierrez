@@ -22,11 +22,15 @@ class UserController {
 
     userData.password = hashedPassword;
 
-    const newUser = await this.usersRepository.createUser(userData);
+    try {
+      const newUser = await this.usersRepository.createUser(userData);
 
-    delete newUser.password;
-
-    res.status(201).json({ user: newUser });
+      res.status(200).json({ user: newUser });
+    } catch {
+      res
+        .status(500)
+        .json({ error: "It was not possible to create this user." });
+    }
   };
 
   loginUser = async (
@@ -52,9 +56,9 @@ class UserController {
 
       const token = jwt.sign(userData, "PATATES");
 
-      res.status(201).json(token);
+      res.status(200).json(token);
     } catch (error) {
-      res.status(400).json((error as Error).message);
+      res.status(401).json((error as Error).message);
     }
   };
 }
