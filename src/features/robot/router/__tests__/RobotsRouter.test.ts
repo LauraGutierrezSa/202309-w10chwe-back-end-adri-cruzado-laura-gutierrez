@@ -24,11 +24,12 @@ afterAll(async () => {
 
 describe("Given a GET /robots endpoint", () => {
   describe("When it recieves a request", () => {
-    test("Then it should respond with a status of 200 and a list of robots 'Optimus Prime', 'Mazinger Z' and 'Bender'", async () => {
+    test("Then it should respond with a status of 200 and a list of robots 'Optimus Prime' and 'Mazinger Z'", async () => {
       const path = "/robots";
       const expectedStatusCode = 200;
 
-      await Robot.create(robotsMock);
+      await Robot.create(robotsMock[0]);
+      await Robot.create(robotsMock[1]);
 
       const response = await request(app).get(path).expect(expectedStatusCode);
 

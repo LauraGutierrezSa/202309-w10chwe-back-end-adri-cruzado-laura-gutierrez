@@ -1,4 +1,5 @@
 import {
+  type UserStructure,
   type UserDataStructure,
   type UserWithoutPasswordStructure,
 } from "../types";
@@ -8,7 +9,11 @@ export interface UsersRepository {
     userData: UserDataStructure,
   ) => Promise<UserWithoutPasswordStructure>;
   loginUser: (
-    userName: string,
+    username: string,
     password: string,
   ) => Promise<UserWithoutPasswordStructure>;
+}
+
+export interface UserMongooseRepositoryStructure {
+  getUser: (username: string, password: string) => Promise<UserStructure>;
 }
