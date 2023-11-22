@@ -4,16 +4,13 @@ import pingRouter from "../features/ping/router/PingRouter.js";
 import robotsRouter from "../features/robot/router/RobotsRouter.js";
 import cors from "cors";
 import express from "express";
-import { userRouter } from "../features/user/router/userRouter.js";
+import userRouter from "../features/user/router/userRouter.js";
 import notFound from "./middlewares/errors/errorMiddleware.js";
 
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: [
-      "https://two02309-w10chwe-back-end-adri-cruzado.onrender.com/",
-      "https://two02309-w10chwe-back-end-adri-cruzado.onrender.com/robots",
-    ],
+    origin: "*",
   }),
 );
 app.use(express.json());

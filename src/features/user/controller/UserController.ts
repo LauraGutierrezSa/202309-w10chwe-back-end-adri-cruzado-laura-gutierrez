@@ -1,12 +1,18 @@
 import { type JwtPayload } from "jsonwebtoken";
-import { type UsersRepository } from "../repository/types";
-import { type LoginRequestData, type UserDataStructure } from "../types";
+import {
+  type UserStructure,
+  type LoginUserRequest,
+  type UserDataStructure,
+  type UserWithoutPasswordStructure,
+} from "../types";
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import type UsersMongooseRepository from "../repository/usersMongooseRepository";
+import { User } from "../model/User";
 
 class UserController {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersMongooseRepository) {}
 
   registerUser = async (
     req: Request<
@@ -33,32 +39,24 @@ class UserController {
     }
   };
 
-  loginUser = async (
-    req: Request<
-      Record<string, unknown>,
-      Record<string, unknown>,
-      LoginRequestData
-    >,
-    res: Response,
-  ) => {
-    const userCredentials = req.body;
-
+  loginUser = async (req: LoginUserRequest, res: Response): Promise<void> => {
     try {
-      const currentUser = await this.usersRepository.loginUser(
-        userCredentials.username,
-        userCredentials.password,
+      const { username, password } = req.body;
+      const currentUser = await this.usersRepository.getUser(
+        username,
+        password,
       );
 
       const userData: JwtPayload = {
         sub: currentUser._id,
-        name: currentUser.username,
+        name: currentUser.name,
       };
 
-      const token = jwt.sign(userData, "PATATES");
+      const token = jwt.sign(userData, process.env.JWT_SECRET_KEY!);
 
       res.status(200).json(token);
     } catch (error) {
-      res.status(401).json((error as Error).message);
+      res.status(401).json({ error: "User not found" });
     }
   };
 }
