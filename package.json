@@ -50,7 +50,9 @@
     "typescript": "^5.2.2"
   },
   "dependencies": {
+    "@types/debug": "^4.1.12",
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "jest-ts-webcompat-resolver": "^1.0.0"
   }
 }

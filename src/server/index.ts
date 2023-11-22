@@ -6,6 +6,7 @@ import cors from "cors";
 import express from "express";
 import userRouter from "../features/user/router/userRouter.js";
 import notFound from "./middlewares/errors/errorMiddleware.js";
+import { generalError } from "./middlewares/errors/generalError.js";
 
 app.use(morgan("dev"));
 app.use(
@@ -17,4 +18,5 @@ app.use(express.json());
 app.use("/", pingRouter);
 app.use("/robots", robotsRouter);
 app.use("/", userRouter);
+app.use(generalError);
 app.use(notFound);

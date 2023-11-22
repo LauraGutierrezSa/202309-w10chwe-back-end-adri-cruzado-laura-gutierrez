@@ -1,16 +1,11 @@
+import "dotenv/config.js";
 import { type JwtPayload } from "jsonwebtoken";
-import {
-  type UserStructure,
-  type LoginUserRequest,
-  type UserDataStructure,
-  type UserWithoutPasswordStructure,
-} from "../types";
+import { type LoginUserRequest, type UserDataStructure } from "../types";
 import bcrypt from "bcrypt";
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import type UsersMongooseRepository from "../repository/usersMongooseRepository";
-import { User } from "../model/User";
-
+import { generalError } from "../../../server/middlewares/errors/generalError";
 class UserController {
   constructor(private readonly usersRepository: UsersMongooseRepository) {}
 
@@ -33,9 +28,7 @@ class UserController {
 
       res.status(200).json({ user: newUser });
     } catch {
-      res
-        .status(500)
-        .json({ error: "It was not possible to create this user." });
+      res.status(500).json({ generalError });
     }
   };
 
@@ -56,7 +49,7 @@ class UserController {
 
       res.status(200).json(token);
     } catch (error) {
-      res.status(401).json({ error: "User not found" });
+      res.status(401).json({ generalError });
     }
   };
 }
