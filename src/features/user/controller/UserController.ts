@@ -1,16 +1,12 @@
+import "dotenv/config.js";
 import { type JwtPayload } from "jsonwebtoken";
-import {
-  type UserStructure,
-  type LoginUserRequest,
-  type UserDataStructure,
-  type UserWithoutPasswordStructure,
-} from "../types";
+import { type LoginUserRequest, type UserDataStructure } from "../types";
 import bcrypt from "bcrypt";
-import type { Request, Response } from "express";
+import { type NextFunction, type Request, type Response } from "express";
 import jwt from "jsonwebtoken";
 import type UsersMongooseRepository from "../repository/usersMongooseRepository";
-import { User } from "../model/User";
-
+import { generalError } from "../../../server/middlewares/errors/generalError";
+import CustomError from "../../../CustomError/CustomError";
 class UserController {
   constructor(private readonly usersRepository: UsersMongooseRepository) {}
 
@@ -21,6 +17,7 @@ class UserController {
       UserDataStructure
     >,
     res: Response,
+    next: NextFunction,
   ) => {
     const userData = req.body;
 
@@ -33,13 +30,19 @@ class UserController {
 
       res.status(200).json({ user: newUser });
     } catch {
-      res
-        .status(500)
-        .json({ error: "It was not possible to create this user." });
+      const userError = new CustomError(
+        "It was not possible to create this user.",
+        500,
+      );
+      next(userError);
     }
   };
 
-  loginUser = async (req: LoginUserRequest, res: Response): Promise<void> => {
+  loginUser = async (
+    req: LoginUserRequest,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> => {
     try {
       const { username, password } = req.body;
       const currentUser = await this.usersRepository.getUser(
@@ -56,7 +59,8 @@ class UserController {
 
       res.status(200).json(token);
     } catch (error) {
-      res.status(401).json({ error: "User not found" });
+      const userError = new CustomError("Wrong credentials", 404);
+      next(userError);
     }
   };
 }
