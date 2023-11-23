@@ -3,6 +3,6 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   testMatch: ["**/src/**/*.test.ts"],
-  setupFilesAfterEnv: ["src/setupTest.ts"],
+  setupFilesAfterEnv: ["./src/setupTest.ts"],
   resolver: "jest-ts-webcompat-resolver",
 };
